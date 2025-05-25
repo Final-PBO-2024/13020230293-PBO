@@ -2,6 +2,7 @@ package com.absensi.form;
 
 import com.absensi.dao.TeacherDAO;
 import com.absensi.form.input.FormInputTeacher;
+import com.absensi.main.AllForms;
 import com.absensi.main.Form;
 import com.absensi.main.FormManager;
 import com.absensi.model.Teacher;
@@ -169,12 +170,11 @@ public class FormTeacher extends Form {
         }
     }
 
-    private void deleteData() {
+   private void deleteData() {
     int row = tblData.getSelectedRow();
     if (row != -1) {
-        Teacher model = tblModel.getData(row);
-        // Variabel idTeacher ini akan digunakan untuk di-set ke modelTeacher
-        final int idGuruYangAkanDihapus = model.getIdTeacher(); 
+        Teacher model = tblModel.getData(tblData.convertRowIndexToModel(row)); // Gunakan convertRowIndexToModel
+        final int idGuruYangAkanDihapus = model.getIdTeacher();
 
         String message = "Apakah kamu yakin menghapus data ini?";
         String title = "Konfirmasi";
@@ -189,10 +189,22 @@ public class FormTeacher extends Form {
                         Teacher modelTeacher = new Teacher();
                         modelTeacher.setDeleteBy(loggedInUser.getIdUser());
                         modelTeacher.setIdTeacher(idGuruYangAkanDihapus);
+
                         servis.deleteData(modelTeacher);
                         Toast.show(this, Toast.Type.SUCCESS, "Data berhasil dihapus!", getOptionAlert());
-                        loadData();
-                    }
+                        loadData(); // Me-refresh tabel FormTeacher (ini sudah ada)
+
+                        // ===== TAMBAHKAN BLOK KODE INI UNTUK REFRESH FORM RESTORE =====
+                        FormTeacherRestore restoreForm = null;
+                        Object potentialRestoreForm = AllForms.getForm(FormTeacherRestore.class); // Ambil instance FormTeacherRestore
+                             if (potentialRestoreForm instanceof FormTeacherRestore) {
+                                restoreForm = (FormTeacherRestore) potentialRestoreForm;
+                                 }
+
+                            if (restoreForm != null) { // Cukup cek null saja dulu
+                                 restoreForm.refreshTable(); // Panggil metode refreshTable di FormTeacherRestore
+                                 }
+                                }
                 }));
     } else {
         Toast.show(this, Toast.Type.INFO, "Tolong pilih data yang mau dihapus", getOptionAlert());

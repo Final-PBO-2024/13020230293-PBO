@@ -2,6 +2,7 @@ package com.absensi.main;
 
 import com.absensi.form.FormDashboard;
 import com.absensi.form.FormTeacher;
+import com.absensi.form.FormTeacherRestore;
 import com.absensi.model.User;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Insets;
@@ -88,7 +89,7 @@ public class Menu extends SimpleDrawerBuilder{
             new Item.Label("MASTER"),
             new Item("Teacher", "teacher.svg")
                 .subMenu("Teacher Data", FormTeacher.class)
-                .subMenu("Teacher Data Restore "),
+                .subMenu("Teacher Data Restore ", FormTeacherRestore.class),
             new Item("Class", "class.svg")
                 .subMenu("Class Data")
                 .subMenu("Class Data Restore"),
