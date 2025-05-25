@@ -138,23 +138,21 @@ public void insertData(Teacher model) {
 
     String sql = "SELECT id_teacher, teacher_name, nip, gender, birth_date, address, phone " +
                  "FROM teachers " +
-                 "WHERE id_teacher LIKE ? OR " +
-                 "teacher_name LIKE ? OR " +
-                 "nip LIKE ? OR " +
-                 "birth_date LIKE ? OR " +
-                 "address LIKE ? OR " +
-                 "phone LIKE ? " +
-                 "AND is_delete=FALSE";
+                 "WHERE (id_teacher LIKE ? OR " +       // Parameter 1
+                 "teacher_name LIKE ? OR " +            // Parameter 2
+                 "nip LIKE ? OR " +                     // Parameter 3
+                 "birth_date LIKE ? OR " +              // Parameter 4
+                 "address LIKE ? OR " +                 // Parameter 5
+                 "phone LIKE ?) AND is_delete=FALSE";  // Parameter 6
 
     try {
-        st = conn.prepareStatement(sql);
+       st = conn.prepareStatement(sql);
         st.setString(1, "%" + keyword + "%");
         st.setString(2, "%" + keyword + "%");
         st.setString(3, "%" + keyword + "%");
         st.setString(4, "%" + keyword + "%");
         st.setString(5, "%" + keyword + "%");
         st.setString(6, "%" + keyword + "%");
-        st.setString(7, "%" + keyword + "%");
 
         rs = st.executeQuery();
 
@@ -220,25 +218,24 @@ public void insertData(Teacher model) {
     PreparedStatement st = null;
     ResultSet rs = null;
 
-    String sql = "SELECT id_teacher, teacher_name, nip, gender, birth_date, address, phone " +
+     String sql = "SELECT id_teacher, teacher_name, nip, gender, birth_date, address, phone " +
                  "FROM teachers " +
-                 "WHERE id_teacher LIKE ? OR " +
-                 "teacher_name LIKE ? OR " +
-                 "nip LIKE ? OR " +
-                 "birth_date LIKE ? OR " +
-                 "address LIKE ? OR " +
-                 "phone LIKE ? " +
+                 "WHERE (id_teacher LIKE ? OR " + // Parameter 1
+                 "teacher_name LIKE ? OR " +    // Parameter 2
+                 "nip LIKE ? OR " +             // Parameter 3
+                 "birth_date LIKE ? OR " +    // Parameter 4
+                 "address LIKE ? OR " +         // Parameter 5
+                 "phone LIKE ?) " +             // Parameter 6
                  "AND is_delete=TRUE";
 
     try {
-        st = conn.prepareStatement(sql);
+       st = conn.prepareStatement(sql);
         st.setString(1, "%" + keyword + "%");
         st.setString(2, "%" + keyword + "%");
         st.setString(3, "%" + keyword + "%");
         st.setString(4, "%" + keyword + "%");
         st.setString(5, "%" + keyword + "%");
         st.setString(6, "%" + keyword + "%");
-        st.setString(7, "%" + keyword + "%");
 
         rs = st.executeQuery();
 
@@ -269,7 +266,7 @@ public void insertData(Teacher model) {
         ResultSet rs = null;
         boolean valid = false;
             try {
-               String sql = "SELECT Teachername FROM Teachers WHERE Teachername LIKE BINARY ?";
+                String sql = "SELECT nip FROM teachers WHERE nip = ?";
                st = conn.prepareStatement(sql);
                st.setString(1, model.getNip());
                rs = st.executeQuery();
