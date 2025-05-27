@@ -1,15 +1,18 @@
 package com.absensi.model;
 
-import java.util.Date; 
+import java.util.Date;
 
-public class Teacher {
-    private int idTeacher;
-    private String teacherName;
-    private String nip;
+public class Student {
+
+    private int idStudent;
+    private String nis;
+    private String studentName;
     private String gender;
-    private String birthDate; 
+    private String birthDate; // Disimpan sebagai String "yyyy-MM-dd"
     private String address;
     private String phone;
+    private Kelas kelas; 
+
     private int insertBy;
     private int updateBy;
     private int deleteBy;
@@ -18,32 +21,34 @@ public class Teacher {
     private Date deleteAt;
     private boolean isDelete;
 
-
-    public Teacher() {
+    public Student() {
+        this.kelas = new Kelas(); 
     }
 
-    public int getIdTeacher() {
-        return idTeacher;
+    // Getter dan Setter untuk semua atribut
+
+    public int getIdStudent() {
+        return idStudent;
     }
 
-    public void setIdTeacher(int idTeacher) {
-        this.idTeacher = idTeacher;
+    public void setIdStudent(int idStudent) {
+        this.idStudent = idStudent;
     }
 
-    public String getTeacherName() {
-        return teacherName;
+    public String getNis() {
+        return nis;
     }
 
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setNis(String nis) {
+        this.nis = nis;
     }
 
-    public String getNip() {
-        return nip;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setNip(String nip) {
-        this.nip = nip;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public String getGender() {
@@ -76,6 +81,14 @@ public class Teacher {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Kelas getKelas() {
+        return kelas;
+    }
+
+    public void setKelas(Kelas kelas) {
+        this.kelas = kelas;
     }
 
     public int getInsertBy() {
@@ -134,9 +147,8 @@ public class Teacher {
         this.isDelete = isDelete;
     }
 
-   
     @Override
     public String toString() {
-        return teacherName != null ? teacherName : "-- Pilih Wali Kelas --";
+        return studentName != null ? studentName : "N/A";
     }
 }

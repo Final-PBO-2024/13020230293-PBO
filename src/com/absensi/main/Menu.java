@@ -1,6 +1,10 @@
 package com.absensi.main;
 
 import com.absensi.form.FormDashboard;
+import com.absensi.form.FormKelas;
+import com.absensi.form.FormKelasRestore;
+import com.absensi.form.FormStudent;
+import com.absensi.form.FormStudentRestore;
 import com.absensi.form.FormTeacher;
 import com.absensi.form.FormTeacherRestore;
 import com.absensi.model.User;
@@ -70,7 +74,9 @@ public class Menu extends SimpleDrawerBuilder{
     }
     
     private void changeAvatarIconBorderColor(AvatarIcon icon){
-        icon.setBorderColor(new AvatarIcon.BorderColor(UIManager.getColor("Component.accentColor"),0.7f));
+        // Menggunakan warna putih di kedua mode
+        java.awt.Color borderColor = new java.awt.Color(255, 255, 255);
+        icon.setBorderColor(new AvatarIcon.BorderColor(borderColor, 1.0f));
     }
 
     @Override
@@ -91,12 +97,12 @@ public class Menu extends SimpleDrawerBuilder{
                 .subMenu("Teacher Data", FormTeacher.class)
                 .subMenu("Teacher Data Restore ", FormTeacherRestore.class),
             new Item("Class", "class.svg")
-                .subMenu("Class Data")
-                .subMenu("Class Data Restore"),
+                .subMenu("Class Data", FormKelas.class)
+                .subMenu("Class Data Restore",FormKelasRestore.class),
             new Item("Student", "student.svg")
-                .subMenu("Student Data")
+                .subMenu("Student Data",FormStudent.class)
                 .subMenu("QR Code Student")
-                .subMenu("Student Data Restore"),
+                .subMenu("Student Data Restore",FormStudentRestore.class),
             new Item("Management User", "user.svg")
                 .subMenu("User Data")
                 .subMenu("User Data Restore")
@@ -125,7 +131,7 @@ public class Menu extends SimpleDrawerBuilder{
             new Item("Logout", "logout.svg")
         };
         
-       MenuItem[] menuToUse;
+        MenuItem[] menuToUse;
        
         switch (role) {
             case "Admin":
@@ -142,7 +148,22 @@ public class Menu extends SimpleDrawerBuilder{
         SimpleMenuOption.setMenuStyle(new MenuStyle(){
             @Override
             public void styleMenu(JComponent component) {
-                component.putClientProperty(FlatClientProperties.STYLE, getDrawerBackgroundStyle());
+                // Mengatur latar belakang dan warna teks putih untuk semua komponen
+                component.putClientProperty(FlatClientProperties.STYLE, 
+                    getDrawerBackgroundStyle() + 
+                    ";foreground:rgb(255,255,255)");
+            }
+
+            public void styleMenuItem(JComponent component) {
+                // Mengatur item menu berwarna putih
+                component.putClientProperty(FlatClientProperties.STYLE, 
+                    "foreground:rgb(255,255,255)");
+            }
+
+            public void styleLabel(JComponent component) {
+                // Mengatur label seperti "MAIN", "MASTER" berwarna putih
+                component.putClientProperty(FlatClientProperties.STYLE, 
+                    "foreground:rgb(255,255,255)");
             }
         });
         
@@ -154,24 +175,24 @@ public class Menu extends SimpleDrawerBuilder{
                 Class<?> itemClass = action.getItem().getItemClass();
                 
                 int i = ints[0];
-                if (role.equals( "Admin")) {
+                if (role.equals("Admin")) {
                     if (i == 9) {
                         action.consume();
                         FormManager.logout();
                         return;
                     }
                     handleFormAction(itemClass, action);
-                }else if (role.equals("User")){
+                } else if (role.equals("User")) {
                     if (i == 9) {
                         action.consume();
                         FormManager.logout();
                         return;
-                }
+                    }
                     handleFormAction(itemClass, action);
-              }
+                }
             }
             private void handleFormAction(Class<?> itemClass, MenuAction action){
-                if(itemClass == null || !Form.class.isAssignableFrom(itemClass)){
+                if (itemClass == null || !Form.class.isAssignableFrom(itemClass)){
                     action.consume();
                     return;
                 }
@@ -219,12 +240,15 @@ public class Menu extends SimpleDrawerBuilder{
 
     @Override
     public void build(DrawerPanel drawerPanel) {
-        drawerPanel.putClientProperty(FlatClientProperties.STYLE, getDrawerBackgroundStyle());
+        // Memastikan gaya diterapkan saat membangun panel
+        drawerPanel.putClientProperty(FlatClientProperties.STYLE, 
+            getDrawerBackgroundStyle() + 
+            ";foreground:rgb(255,255,255)");
     }
     
     private static String getDrawerBackgroundStyle(){
-        return""
-               + "[]background:@accentColor;"
-               + "[dark]background:tint ($Panel.background, 10%)";
+        return ""
+               + "[light]background:@accentColor;" // Mode light: @accentColor (sesuai btnRestore)
+               + "[dark]background:shade(@accentColor, 20%)"; // Mode dark: lebih gelap dari @accentColor
     }
 }

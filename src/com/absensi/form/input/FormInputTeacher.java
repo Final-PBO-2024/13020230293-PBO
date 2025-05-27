@@ -65,13 +65,12 @@ public class FormInputTeacher extends JPanel {
     }
 
     private void init() {
-        // ===== PERBAIKAN DI BARIS INI =====
+       
         setLayout(new MigLayout(
             "fill, insets 5 30 5 30, wrap 2, gap 20px, width 400px!", // Argumen pertama: Layout Constraints
             "[grow, fill][grow, fill]",                               // Argumen kedua: Column Constraints
             "[50][fill, grow]"                                        // Argumen ketiga: Row Constraints
         ));
-        // ===== AKHIR PERBAIKAN =====
 
         txtName = new JTextField();
         txtName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter teacher name");
